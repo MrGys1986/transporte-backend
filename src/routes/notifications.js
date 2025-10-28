@@ -4,6 +4,13 @@ const notificationController = require('../controllers/notificationController');
 const { authenticate } = require('../middleware/auth');
 
 /**
+ * @route   GET /api/notifications/vapid-public-key
+ * @desc    Obtener clave pública VAPID para push notifications
+ * @access  Public
+ */
+router.get('/vapid-public-key', notificationController.getVapidPublicKey);
+
+/**
  * @route   GET /api/notifications
  * @desc    Obtener notificaciones del usuario
  * @access  Private

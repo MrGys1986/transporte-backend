@@ -2,6 +2,21 @@ const Notification = require('../models/Notification');
 const PushSubscription = require('../models/PushSubscription');
 const { sendResponse, sendError } = require('../utils/response');
 const { sendPushNotification } = require('../services/pushService');
+const config = require('../config');
+
+/**
+ * Obtener clave pública VAPID
+ */
+exports.getVapidPublicKey = async (req, res) => {
+  try {
+    sendResponse(res, 200, {
+      publicKey: config.vapid.publicKey,
+    });
+  } catch (error) {
+    console.error('Error al obtener clave VAPID:', error);
+    sendError(res, 500, 'Error al obtener clave VAPID', error.message);
+  }
+};
 
 /**
  * Obtener notificaciones del usuario

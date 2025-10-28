@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2196F3">
+  <title>Sin Conexión - Transporte</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .offline-container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .offline-icon {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 2s infinite;
+    }
+
+    .offline-icon svg {
+      width: 60px;
+      height: 60px;
+      fill: white;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.9;
+      }
+    }
+
+    h1 {
+      color: #667eea;
+      font-size: 28px;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    p {
+      color: #666;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .retry-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .retry-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .retry-button:active {
+      transform: translateY(0);
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #f5f5f5;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .status.online {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .status.offline {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .features {
+      margin-top: 30px;
+      text-align: left;
+    }
+
+    .features h3 {
+      color: #667eea;
+      font-size: 18px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+
+    .feature-icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 12px;
+      color: #667eea;
+    }
+
+    .feature-text {
+      font-size: 14px;
+      color: #555;
+    }
+
+    @media (max-width: 600px) {
+      .offline-container {
+        padding: 30px 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .offline-icon {
+        width: 100px;
+        height: 100px;
+      }
+
+      .offline-icon svg {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="offline-container">
+    <div class="offline-icon">
+      <svg viewBox="0 0 24 24">
+        <path d="M23.64 7c-.45-.34-4.93-4-11.64-4-1.5 0-2.89.19-4.15.48L18.18 13.8 23.64 7zm-6.6 8.22L3.27 1.44 2 2.72l2.05 2.06C1.91 5.76.59 6.82.36 7l11.63 14.49.01.01.01-.01 3.9-4.86 3.32 3.32 1.27-1.27-3.46-3.46z"/>
+      </svg>
+    </div>
+
+    <h1>Sin Conexión a Internet</h1>
+    <p>
+      No pudimos conectarnos al servidor. Por favor, verifica tu conexión a internet e intenta nuevamente.
+    </p>
+
+    <button class="retry-button" onclick="retryConnection()">
+      Reintentar Conexión
+    </button>
+
+    <div class="status" id="status">
+      <span id="status-text">Verificando conexión...</span>
+    </div>
+
+    <div class="features">
+      <h3>Funciones disponibles sin conexión:</h3>
+      
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        </svg>
+        <span class="feature-text">Ver viajes guardados</span>
+      </div>
+
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+        <span class="feature-text">Ver ubicación actual</span>
+      </div>
+
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/>
+        </svg>
+        <span class="feature-text">Ver notificaciones recientes</span>
+      </div>
+
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+        </svg>
+        <span class="feature-text">Consultar historial</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let checkingConnection = false;
+
+    // Verificar conexión al cargar
+    window.addEventListener('load', () => {
+      checkConnection();
+      
+      // Actualizar estado cada 5 segundos
+      setInterval(checkConnection, 5000);
+    });
+
+    // Detectar cuando vuelve la conexión
+    window.addEventListener('online', () => {
+      updateStatus(true);
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 1000);
+    });
+
+    window.addEventListener('offline', () => {
+      updateStatus(false);
+    });
+
+    function checkConnection() {
+      if (checkingConnection) return;
+      
+      checkingConnection = true;
+      const status = document.getElementById('status');
+      const statusText = document.getElementById('status-text');
+
+      if (navigator.onLine) {
+        // Intentar hacer fetch al servidor
+        fetch('/api/health', { method: 'HEAD', cache: 'no-cache' })
+          .then(response => {
+            if (response.ok) {
+              updateStatus(true);
+              setTimeout(() => {
+                window.location.href = '/';
+              }, 1000);
+            } else {
+              updateStatus(false);
+            }
+          })
+          .catch(() => {
+            updateStatus(false);
+          })
+          .finally(() => {
+            checkingConnection = false;
+          });
+      } else {
+        updateStatus(false);
+        checkingConnection = false;
+      }
+    }
+
+    function updateStatus(isOnline) {
+      const status = document.getElementById('status');
+      const statusText = document.getElementById('status-text');
+
+      if (isOnline) {
+        status.className = 'status online';
+        statusText.textContent = '✓ Conexión restaurada - Redirigiendo...';
+      } else {
+        status.className = 'status offline';
+        statusText.textContent = '✗ Sin conexión a internet';
+      }
+    }
+
+    function retryConnection() {
+      const button = document.querySelector('.retry-button');
+      button.textContent = 'Verificando...';
+      button.disabled = true;
+
+      checkConnection();
+
+      setTimeout(() => {
+        button.textContent = 'Reintentar Conexión';
+        button.disabled = false;
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
